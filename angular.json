@@ -33,7 +33,15 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "@hapi/nes",
+              "./node_modules/@hapi/bounce/lib/index.js",
+              "./node_modules/@hapi/b64/lib/encoder.js",
+              "./node_modules/@hapi/b64/lib/decoder.js",
+              "./node_modules/@hapi/cryptiles/lib/index.js",
+              "./node_modules/@hapi/iron/lib/index.js"
+            ]
           },
           "configurations": {
             "production": {
