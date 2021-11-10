@@ -25,21 +25,19 @@ export class AppComponent implements OnDestroy {
     //     });
     //   });
 
-
     console.log('constructor +', connectionUrl);
 
     const start = async () => {
       await client.connect();
       console.log('connect +');
 
-      const payload = await client.request('hello');  // Can also request '/h'
-      // payload -> 'world!'
-      console.log('payload', payload);
+      // const payload = await client.request('hello');  // Can also request '/h'
+      //
+      // console.log('payload', payload);
     };
 
-    client.onUpdate = (update) => {
-      // update -> 'welcome!'
-      console.log('update', update);
+    client.onUpdate = (message) => {
+      console.log('broadcast', JSON.parse(message));
     };
 
     void start();
