@@ -41,7 +41,7 @@ export class AppComponent implements OnDestroy {
     };
 
     client.onUpdate = (message) => {
-      this.log('broadcast', JSON.parse(message));
+      this.log('broadcast', JSON.stringify(JSON.parse(message)));
     };
 
     start().catch((err) => {
