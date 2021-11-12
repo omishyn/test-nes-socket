@@ -1,5 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Client} from '@hapi/nes/lib/client';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,8 @@ import {Client} from '@hapi/nes/lib/client';
 export class AppComponent implements OnDestroy {
   title = 'test-nes-socket';
   client: Client;
+
+  messages$ = new BehaviorSubject<string[]>([]);
 
   constructor() {
     const {protocol} = window.location;
@@ -25,11 +28,12 @@ export class AppComponent implements OnDestroy {
     //     });
     //   });
 
-    console.log('constructor +', connectionUrl);
+    this.log('constructor +', connectionUrl);
+
 
     const start = async () => {
       await client.connect();
-      console.log('connect +');
+      this.log('connect +');
 
       // const payload = await client.request('hello');  // Can also request '/h'
       //
@@ -40,14 +44,24 @@ export class AppComponent implements OnDestroy {
       console.log('broadcast', JSON.parse(message));
     };
 
-    void start();
+    start().catch((err) => {
+      this.log(err)
+    });
 
 
-    console.log('constructor +2');
+    this.log('constructor +2');
   }
 
   public ngOnDestroy(): void {
-    console.log('disconnect +');
+    this.log('disconnect +');
     void this.client.disconnect();
   }
+
+  // @ts-ignore
+  private log(...data): void {
+    const strs = data.map(String);
+    console.log(data);
+    this.messages$.next(this.messages$.value.concat(strs.join(' ')));
+  }
 }
+
